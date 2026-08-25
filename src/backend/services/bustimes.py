@@ -1,12 +1,26 @@
+import json
 import httpx
+from pathlib import Path
 
 BUSTIMES_API_URL = "https://bustimes.org/api/vehicles/"
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
 
+CACHE_DIR = PROJECT_ROOT / ".cache"
+CACHE_DIR.mkdir(exist_ok=True)
 
 def get_bustimes_vehicle_info(
     operator_code: str,
-    fleet_number: int | None = None
 ):
+    cache_file = CACHE_DIR / f"{operator_code}.json"
+
+    # If cache file exists for that operator_code return it.
+    if cache_file.exists():
+        print("Cache file found. Returning cached result.")
+        with open(cache_file, "r") as file:
+            return json.load(file)
+    else:
+        print("Cache file not found.")
+
     params = {
         "operator": operator_code
     }
@@ -30,15 +44,7 @@ def get_bustimes_vehicle_info(
 
             next_link = data["next"]
 
-        # Filter fleet number, if provided
-        if fleet_number is not None:
-            vehicles = [
-                vehicle
-                for vehicle in vehicles
-                if vehicle.get("fleet_number") == fleet_number
-            ]
-
-        return [
+        vehicles = [
             {
                 "operatorCode": vehicle["operator"]["id"],
                 "fleetNumber": int(vehicle["fleet_number"]),
@@ -48,6 +54,13 @@ def get_bustimes_vehicle_info(
             }
             for vehicle in vehicles
         ]
+
+        # Update cache
+        with cache_file.open("w") as file:
+            print("Updated cache.")
+            json.dump(vehicles, file, indent=4)
+
+        return vehicles
 
     except httpx.TimeoutException:
         print("Bustimes API timed out.")
