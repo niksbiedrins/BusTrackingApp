@@ -46,8 +46,8 @@ def get_bustimes_vehicle_info(
 
         vehicles = [
             {
-                "operatorCode": vehicle["operator"]["id"],
-                "fleetNumber": int(vehicle["fleet_number"]),
+                "operator_code": vehicle["operator"]["id"],
+                "fleet_number": int(vehicle["fleet_number"]),
                 "double_decker": bool(vehicle["vehicle_type"]["double_decker"]) if vehicle["vehicle_type"] else False,
                 "coach": bool(vehicle["vehicle_type"]["coach"]) if vehicle["vehicle_type"] else False,
                 "electric": bool(vehicle["vehicle_type"]["electric"]) if vehicle["vehicle_type"] else False,
