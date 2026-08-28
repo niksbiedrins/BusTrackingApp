@@ -11,20 +11,32 @@ from models.bustimes import VehicleInfo
 
 router = APIRouter(tags=["stagecoach"])
 
-@router.get("/api/stagecoach/vehicle-tracking", response_model=list[StagecoachVehicleTrackingInfo])
+
+@router.get(
+    "/api/stagecoach/vehicle-tracking/",
+    response_model=list[StagecoachVehicleTrackingInfo],
+)
 def vehicle_tracking(
-        operator_code: Annotated[str, Query(min_length=1, max_length=5, pattern=r"^[a-zA-Z]+$")],
-        fleet_number: Annotated[int | None, Query(ge=1)] = None,
+    operator_code: Annotated[
+        str, Query(min_length=1, max_length=5, pattern=r"^[a-zA-Z]+$")
+    ],
+    fleet_number: Annotated[int | None, Query(ge=1)] = None,
 ):
     bustimes_vehicle_info = get_bustimes_vehicle_info(operator_code=operator_code)
-    stagecoach_vehicle_tracking_info = get_stagecoach_vehicle_tracking_info(operator_code=operator_code, fleet_number=fleet_number)
+    stagecoach_vehicle_tracking_info = get_stagecoach_vehicle_tracking_info(
+        operator_code=operator_code, fleet_number=fleet_number
+    )
 
     # Check if we fetched the functions
     if bustimes_vehicle_info is not None:
-        print("Fetcehd get_bustimes_vehicle_info() successfully")
+        print("Fetched get_bustimes_vehicle_info() successfully")
+    else:
+        bustimes_vehicle_info = []
 
     if stagecoach_vehicle_tracking_info is not None:
         print("Fetched stagecoach vehicle tracking_info() successfully")
+    else:
+        stagecoach_vehicle_tracking_info = []
 
     to_return = []
 
@@ -33,9 +45,11 @@ def vehicle_tracking(
         for vehicle in bustimes_vehicle_info:
 
             if service["fleet_number"] == vehicle["fleet_number"]:
-                to_return.append({
-                    **service,
-                    **vehicle,
-                })
+                to_return.append(
+                    {
+                        **service,
+                        **vehicle,
+                    }
+                )
 
     return to_return
