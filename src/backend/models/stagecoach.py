@@ -5,6 +5,7 @@ class StagecoachVehicleTrackingInfo(BaseModel):
     fleet_number: int
     service_number: str
     operator_code: str
+    heading: int
     latitude: float
     longitude: float
     destination: str

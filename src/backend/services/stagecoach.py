@@ -21,6 +21,7 @@ def get_stagecoach_vehicle_tracking_info(
         vehicles = [
             {
                 "fleet_number": int(service["fn"]),
+                "heading": int(service["hg"]),
                 "operator_code": service["oc"],
                 "service_number": service["sn"],
                 "latitude": float(service["la"]),
