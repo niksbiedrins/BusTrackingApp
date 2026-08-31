@@ -3,6 +3,7 @@ from pydantic import BaseModel
 
 class StagecoachVehicleTrackingInfo(BaseModel):
     fleet_number: int
+    service_number: str
     operator_code: str
     latitude: float
     longitude: float

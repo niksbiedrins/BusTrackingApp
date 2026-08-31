@@ -15,7 +15,25 @@ async function renderBusMarkers(operatorCode) {
   const data = await getLiveTrackingData(operatorCode);
 
   for (const bus of data) {
-    L.marker([bus.latitude, bus.longitude]).addTo(map);
+    let vehicleType;
+    const electric = bus["electric"] ? "Electric" : "Diesel";
+
+    if (bus["coach"]) {
+      vehicleType = "Coach";
+    } else if (bus["double_decker"]) {
+      vehicleType = "Double decker";
+    } else {
+      vehicleType = "Single decker";
+    }
+
+    L.marker([bus.latitude, bus.longitude])
+      .addTo(map)
+      .bindPopup(
+        `
+        <b>${bus["service_number"]} to ${bus["destination"] || bus["final_stop"]}</b><br>
+        ${vehicleType}, ${electric}
+        `,
+      );
   }
 }
 
