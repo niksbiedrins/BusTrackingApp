@@ -3,8 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from pathlib import Path
 
-from routers.stagecoach import router as stagecoach_router
-from routers.bustimes import router as bustimes_router
+from src.routers.stagecoach import router as stagecoach_router
+from src.routers.bustimes import router as bustimes_router
 
 app = FastAPI()
 

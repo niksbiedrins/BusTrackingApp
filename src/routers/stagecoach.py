@@ -3,11 +3,10 @@ from fastapi import APIRouter, Query
 
 from typing import Iterable
 
-from services.stagecoach import get_stagecoach_vehicle_tracking_info
-from services.bustimes import get_bustimes_vehicle_info
+from src.services.stagecoach import get_stagecoach_vehicle_tracking_info
+from src.services.bustimes import get_bustimes_vehicle_info
 
-from models.stagecoach import StagecoachVehicleTrackingInfo
-from models.bustimes import VehicleInfo
+from src.models.stagecoach import StagecoachVehicleTrackingInfo
 
 router = APIRouter(tags=["stagecoach"])
 

@@ -1,7 +1,8 @@
 from typing import Annotated
 from fastapi import APIRouter, Query
-from services.bustimes import get_bustimes_vehicle_info
-from models.bustimes import VehicleInfo
+
+from src.services.bustimes import get_bustimes_vehicle_info
+from src.models.bustimes import VehicleInfo
 
 router = APIRouter(tags=["stagecoach"])
 
