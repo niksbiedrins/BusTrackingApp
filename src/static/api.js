@@ -2,9 +2,7 @@ export async function getLiveTrackingData(operatorCode) {
   try {
     const params = new URLSearchParams({ operator_code: operatorCode });
 
-    const response = await fetch(
-      `http://localhost:8000/api/stagecoach/vehicle-tracking/?${params}`,
-    );
+    const response = await fetch(`/api/stagecoach/vehicle-tracking/?${params}`);
 
     if (!response.ok) {
       throw new Error(
